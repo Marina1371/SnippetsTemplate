@@ -21,9 +21,11 @@
 
                 {% for snippet in items %}
                 <tr class="table-warning">
-
                     <td scope="row">{{ snippet.id }}</td>
-                    <td><a href="/snippet/{{snippet.id}}">{{ snippet.code }}</a></td>
+                    <td>
+                    <a href="%url 'snippet-detal'snippet.id%}">{{ snippet.name }}</a>
+                    <i class="fa-solid fa-trash"></i>
+                    </td>
                     <td>{{snippet.creation_date}}</td>
 
                 </tr>
