@@ -31,4 +31,4 @@ def snippet(request, id):
 
 
 def test(request):
-    return render(request, 'demo_bs.html')
+    return render(request, 'demo_bootstrap.html')
