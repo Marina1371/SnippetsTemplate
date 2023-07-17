@@ -1,5 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.contrib  import auth
+from django.shortcuts import redirect
 from MainApp.models import Snippet
 from MainApp.forms import SnippetForm
 
@@ -58,3 +60,22 @@ def login(request):
        print("password =", password)
 
        return render(request,'pages/snippet_edit.html')
+
+def login(request):
+   if request.method == 'POST':
+       username = request.POST.get("username")
+       password = request.POST.get("password")
+       # print("username =", username)
+       # print("password =", password)
+       user = auth.authenticate(request, username=username, password=password)
+       if user is not None:
+           auth.login(request, user)
+       else:
+           # Return error message
+           pass
+   return redirect('home')
+
+def logout(request):
+    if request.method == 'POST':
+        auth.logout(request)
+        return redirect('/')
