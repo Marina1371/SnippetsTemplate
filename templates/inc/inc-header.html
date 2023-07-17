@@ -19,6 +19,15 @@
                         <a class="btn btn-outline-info" href="{% url 'snippets-list' %}">Посмотреть сниппеты</a>
                     </li>
                 </ul>
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <label for="username">username: </label>
+    <input name="username" type="text">
+    <label for="password">password: </label>
+    <input name="password" type="password">
+    <button type="submit">login</button>
+</form>
+
             </div>
         </div>
     </nav>
