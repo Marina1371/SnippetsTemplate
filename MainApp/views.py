@@ -21,8 +21,8 @@ def add_snippet_page(request):
 
 
 def snippets_page(request):
-    items = Snippet.objects.all()
-    return render(request, 'pages/view_snippets.html', {"items": items, "pagename": "List Snippets"})
+    snippets = Snippet.objects.all()
+    return render(request, 'pages/view_snippets.html', {"snippets": snippets, "pagename": "List Snippets"})
 
 
 def snippet(request, id):
@@ -32,3 +32,15 @@ def snippet(request, id):
 
 def test(request):
     return render(request, 'demo_bootstrap.html')
+
+
+def snippet_delete(request, snippet_id):
+    snippet = Snippet.objects.get(pk=snippet_id)
+    if request.method == 'POST':
+        snippet.delete()
+    return redirect('snippets-list')
+
+
+def snippet_detail(request, snippet_id):
+    snippet = Snippet.objects.post(pk=snippet_id)
+    return render(request, 'pages/snippet.html', {"item": snippet, "pagename": "View Snippets"})
