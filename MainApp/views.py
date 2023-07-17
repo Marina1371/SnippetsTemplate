@@ -42,5 +42,10 @@ def snippet_delete(request, snippet_id):
 
 
 def snippet_detail(request, snippet_id):
-    snippet = Snippet.objects.post(pk=snippet_id)
+    snippet = Snippet.objects.get(pk=snippet_id)
     return render(request, 'pages/snippet.html', {"item": snippet, "pagename": "View Snippets"})
+
+def snippet_edit(request, snippet_id):
+    form = SnippetForm(request.POST or None)
+    snippet = Snippet.objects.get(pk=snippet_id)
+    return render(request, 'pages/snippet_edit.html', {"form": form, "pagename": "edit snippet"})

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content%}
+<!-- content -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>{{ pagename }}</h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+            <form method="post">
+               {% csrf_token %}
+               <table>
+                   {{ form }}
+               </table>
+                <input type="submit" value="Create" />
+            </form>
+    </div>
+</div>
+{% endblock %}
