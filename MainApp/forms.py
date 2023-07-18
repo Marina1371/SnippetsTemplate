@@ -15,13 +15,13 @@ class UserRegistrationForm(ModelForm):
     class Meta:
         model = User
         fields = ["username", "email"]
-        password1 = CharField(label="password", widget=PasswordInput)
-        password2 = CharField(label="password confirm", widget=PasswordInput)
 
+    password1 = CharField(label="password", widget=PasswordInput)
+    password2 = CharField(label="password confirm", widget=PasswordInput)
 
-def clean_password2(self):
-    pass1 = self.cleaned_data.get("password1")
-    pass2 = self.cleaned_data.get("password2")
-    if pass1 and pass2 and pass1 == pass2:
-        return pass2
-    raise ValidationError("Пароли не совпадают")
+    def clean_password2(self):
+        pass1 = self.cleaned_data.get("password1")
+        pass2 = self.cleaned_data.get("password2")
+        if pass1 and pass2 and pass1 == pass2:
+            return pass2
+        raise ValidationError("Пароли не совпадают")
