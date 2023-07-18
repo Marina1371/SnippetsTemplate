@@ -11,12 +11,14 @@ def index_page(request):
     return render(request, 'pages/index.html', context)
 
 
-def add_snippet_page(request):
-    form = SnippetForm(request.POST or None)
-
+def add_snippet(request):
+    form = SnippetForm()
     if request.method == 'POST':
+        form = SnippetForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            snippet = form.save(commit=False)
+            snippet.user = request.user
+            snippet.save()
             return redirect('snippets-list')
 
     return render(request, 'pages/add_snippet.html', {"form": form, "pagename": "Create Snippet"})
