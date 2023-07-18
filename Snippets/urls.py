@@ -11,6 +11,7 @@ urlpatterns = [
     path('snippet/<int:id>', views.snippet, name='snippets-data'),
     path('snippet/<int:snippet_id>', views.snippet_detail, name='snippet-detail' ),
     path('snippet/<int:snippet_id>/edit', views.snippet_edit, name='snippet-edit'),
+    path('register', views.registration, name='registration'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
     path('test', views.test)

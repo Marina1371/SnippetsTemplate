@@ -1,9 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.contrib  import auth
+from django.contrib import auth
 from django.shortcuts import redirect
 from MainApp.models import Snippet
-from MainApp.forms import SnippetForm
+from MainApp.forms import SnippetForm, UserRegistrationForm
 
 
 def index_page(request):
@@ -49,35 +49,52 @@ def snippet_detail(request, snippet_id):
     snippet = Snippet.objects.get(pk=snippet_id)
     return render(request, 'pages/snippet.html', {"item": snippet, "pagename": "View Snippets"})
 
+
 def snippet_edit(request, snippet_id):
     form = SnippetForm(request.POST or None)
     snippet = Snippet.objects.get(pk=snippet_id)
     return render(request, 'pages/snippet_edit.html', {"form": form, "pagename": "edit snippet"})
 
-def login(request):
-   if request.method == 'POST':
-       username = request.POST.get("username")
-       password = request.POST.get("password")
-       print("username =", username)
-       print("password =", password)
-
-       return render(request,'pages/snippet_edit.html')
 
 def login(request):
-   if request.method == 'POST':
-       username = request.POST.get("username")
-       password = request.POST.get("password")
-       # print("username =", username)
-       # print("password =", password)
-       user = auth.authenticate(request, username=username, password=password)
-       if user is not None:
-           auth.login(request, user)
-       else:
-           # Return error message
-           pass
-   return redirect('home')
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        print("username =", username)
+        print("password =", password)
+
+        return render(request, 'pages/snippet_edit.html')
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        # print("username =", username)
+        # print("password =", password)
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+        else:
+            # Return error message
+            pass
+    return redirect('home')
+
 
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         return redirect('/')
+
+
+def registration(request):
+    form = UserRegistrationForm()
+    if request.method == "GET":
+        return render(request, 'pages/registration.html', {"form": form, "pagename": "регистрация"})
+    elif request.method == "POST":
+        form = UserRegistrationForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+        else:
+            pass
+        return redirect('home')

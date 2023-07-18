@@ -21,25 +21,27 @@
                 </ul>
                 {% if request.user.is_authenticated %}
                 <span style= "color: white" > Welcome, {{ request.user.username }} </span>
-<form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn">
-       <i class="fa-solid fa-door-open" style="color: #ffffff;"></i>
-    </button>
-</form>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">
+                       <i class="fa-solid fa-door-open" style="color: #ffffff;"></i>
+                    </button>
+                </form>
                 {% else %}
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <input name="username" type="text" placeholder="username">
-    <input name="password" type="password" placeholder="password">
-    <button type="submit">login</button>
-</form>
-
-
+                <div class="row">
+                    <div class="col-1 mr-2">
+                        <a href="{% url 'registration' %}">register</a>
+                    </div>
+                    <div class="col-11">
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <input name="username" type="text" placeholder="username">
+                            <input name="password" type="password" placeholder="password">
+                            <button type="submit">login</button>
+                        </form>
+                    </div>
+                </div>
                 {% endif %}
-
-
-
             </div>
         </div>
     </nav>
