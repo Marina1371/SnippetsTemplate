@@ -95,6 +95,11 @@ def registration(request):
         form = UserRegistrationForm(request.POST or None)
         if form.is_valid():
             form.save()
+            return redirect('home')
         else:
-            pass
-        return redirect('home')
+          context = {
+              "form": form,
+              'pagename':'регистриция',
+          }
+          return render(request, 'pages/registration.html',context)
+

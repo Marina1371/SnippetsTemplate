@@ -18,6 +18,8 @@ class UserRegistrationForm(ModelForm):
 
     password1 = CharField(label="password", widget=PasswordInput)
     password2 = CharField(label="password confirm", widget=PasswordInput)
+    if password1 != password2:
+        ValidationError('Error password')
 
     def clean_password2(self):
         pass1 = self.cleaned_data.get("password1")
