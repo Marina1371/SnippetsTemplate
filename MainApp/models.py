@@ -2,9 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 LANGS = (
-    ("py", "python"),("js", "javaScript"),
+    ("py", "python"), ("js", "javaScript"),
     ("cpp", "c++"),
 )
+
+
 class Snippet(models.Model):
     name = models.CharField(max_length=100)
     lang = models.CharField(max_length=30, choices=LANGS)

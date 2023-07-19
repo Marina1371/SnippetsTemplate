@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib import auth
@@ -58,27 +59,18 @@ def snippet_edit(request, snippet_id):
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        print("username =", username)
-        print("password =", password)
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = auth.authenticate(request, username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+            else:
+                # Return error message
+                pass
 
-        return render(request, 'pages/snippet_edit.html')
-
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        # print("username =", username)
-        # print("password =", password)
-        user = auth.authenticate(request, username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-        else:
-            # Return error message
-            pass
-    return redirect('home')
+        return redirect('home')
 
 
 def logout(request):
@@ -89,17 +81,17 @@ def logout(request):
 
 def registration(request):
     form = UserRegistrationForm()
-    if request.method == "GET":
-        return render(request, 'pages/registration.html', {"form": form, "pagename": "регистрация"})
-    elif request.method == "POST":
+    if request.method == "POST":
         form = UserRegistrationForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.set_password(form.data.get('password1'))
+            user.save()
             return redirect('home')
-        else:
-          context = {
-              "form": form,
-              'pagename':'регистриция',
-          }
-          return render(request, 'pages/registration.html',context)
 
+    return render(request, 'pages/registration.html', {"form": form, "pagename": "регистрация"})
+
+def snippet_my(request):
+    my_snippet = Snippet.objects.filter(user=request.user)
+
+    return render(request, 'pages/view_snippets.html', {'snippets': my_snippet})
