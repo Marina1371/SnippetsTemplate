@@ -23,19 +23,18 @@
                 {% for snippet in snippets %}
                 <tr class="table-warning">
                     <td>{{ snippet.id }}</td>
-                    <td>{{ snippet.name }}</td>>
-                    <td>{{ snippet.user.username }}</td>>
+                    <td>{{ snippet.name }}</td>
+                    <td>{{ snippet.user.username }}</td>
                     <td>{{ snippet.creation_date }}</td>
                     <td>
-                    <a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
-                    <form action="{% url 'snippets-delete' snippet.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
+                        <a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
+                        <form action="{% url 'snippets-delete' snippet.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
                         <a href="{% url 'snippet-edit'  snippet.id%}">
                             <i class="fa-solid fa-file-pen"></i>
                         </a>
-
                     </td>
                 </tr>
                 {% endfor %}

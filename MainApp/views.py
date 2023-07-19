@@ -1,8 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import Http404
-from django.shortcuts import render, redirect
 from django.contrib import auth
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from MainApp.models import Snippet
 from MainApp.forms import SnippetForm, UserRegistrationForm
 
@@ -12,6 +11,7 @@ def index_page(request):
     return render(request, 'pages/index.html', context)
 
 
+@login_required
 def add_snippet(request):
     form = SnippetForm()
     if request.method == 'POST':
@@ -25,6 +25,7 @@ def add_snippet(request):
     return render(request, 'pages/add_snippet.html', {"form": form, "pagename": "Create Snippet"})
 
 
+@login_required
 def snippets_page(request):
     snippets = Snippet.objects.all()
     return render(request, 'pages/view_snippets.html', {"snippets": snippets, "pagename": "List Snippets"})
@@ -39,6 +40,7 @@ def test(request):
     return render(request, 'demo_bootstrap.html')
 
 
+@login_required
 def snippet_delete(request, snippet_id):
     snippet = Snippet.objects.get(pk=snippet_id)
     if request.method == 'POST':
@@ -91,6 +93,8 @@ def registration(request):
 
     return render(request, 'pages/registration.html', {"form": form, "pagename": "регистрация"})
 
+
+@login_required
 def snippet_my(request):
     my_snippet = Snippet.objects.filter(user=request.user)
 

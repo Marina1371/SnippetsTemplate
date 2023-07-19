@@ -15,13 +15,16 @@
                     <li class="form-inline">
                         <a class="btn btn-outline-secondary" href="{% url 'snippets-add' %}">Добавить сниппет</a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li class="form-inline">
                         <a class="btn btn-outline-info" href="{% url 'snippets-list' %}">Посмотреть сниппеты</a>
                     </li>
                     <li class="form-inline">
                         <a class="btn btn-outline-info" href="{% url 'snippets-my' %}">Мои сниппеты</a>
                     </li>
+                    {% endif %}
                 </ul>
+
                 {% if request.user.is_authenticated %}
                 <span style= "color: white" > Welcome, {{ request.user.username }} </span>
                 <form method="post" action="{% url 'logout' %}">
