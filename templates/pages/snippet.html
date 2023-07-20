@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
-{% block content%}
+{% block content %}
 
-<h1>{{ item.id }}</h1>
+<div class="container">
+    <h1>{{ item.id }}</h1>
 <p>{{ item.name }}</p>
 <code>{{ item.code }}</code>
 <p>{{ item.lang }}</p>
 <p>{{ item.creation_date }}</p>
+
+<h2>Comments:</h2>
+{% for comment in comments %}
+<div>
+    <p>Author: <b>{{comment.author.username}}</b></p>
+    <p>Comment: {{comment.text}}</p>
+</div>
+{% endfor %}
+</div>
 
 {% endblock %}

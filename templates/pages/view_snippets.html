@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block content%}
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col text-center">
@@ -16,6 +16,7 @@
                     <th scope="col">Название</th>
                     <th scope="col">автор сниппета</th>
                     <th scope="col">Дата создания</th>
+                    <th scope="col">Private</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -29,13 +30,15 @@
                     <td>{{ snippet.Private}}</td>
                     <td>
                         <a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
+                        <a href="{% url 'snippet-comment' snippet.id %}">Comment</a>
                         <form action="{% url 'snippets-delete' snippet.id %}" method="post">
                             {% csrf_token %}
-                            <button type="submit">Delete</button>
+                            {{comment_form}}
+                            <input name="snippet_id" type="hidden" value="{{snippet.id}}">
+                            <button type="submit">Del</button>
                         </form>
                         <a href="{% url 'snippet-edit'  snippet.id%}">
                             <i class="fa-solid fa-file-pen"></i>
-
                         </a>
                         </a>
                     </td>

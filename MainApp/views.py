@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.shortcuts import redirect, render
 from MainApp.models import Snippet
-from MainApp.forms import SnippetForm, UserRegistrationForm
+from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
 
 
 def index_page(request):
@@ -50,7 +50,8 @@ def snippet_delete(request, snippet_id):
 
 def snippet_detail(request, snippet_id):
     snippet = Snippet.objects.get(pk=snippet_id)
-    return render(request, 'pages/snippet.html', {"item": snippet, "pagename": "View Snippets"})
+    comments = snippet.comments.all()
+    return render(request, 'pages/snippet.html', {"item": snippet, "comments": comments, "pagename": "View Snippets"})
 
 
 def snippet_edit(request, snippet_id):
@@ -99,3 +100,25 @@ def snippet_my(request):
     my_snippet = Snippet.objects.filter(user=request.user)
 
     return render(request, 'pages/view_snippets.html', {'snippets': my_snippet})
+
+
+@login_required
+def comment_add(request, pk):
+    if request.method == "GET":
+        form = CommentForm()
+        snippet = Snippet.objects.get(pk=pk)
+
+        return render(request, 'pages/add_comment.html', {"form": form, "snippet": snippet })
+
+    elif request.method == "POST":
+        form = CommentForm(request.POST or None)
+        if form.is_valid():
+            snippet_id = request.POST.get("snippet_id")
+            snippet = Snippet.objects.get(id=snippet_id)
+            if snippet.id:
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.snippet = snippet
+                comment.save()
+                return redirect('snippet-detail', snippet.id)
+

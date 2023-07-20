@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from MainApp.models import Snippet
+from MainApp.models import Snippet, Comment
 from django.contrib.auth.models import User
 from django.forms import CharField, PasswordInput
 from django.core.exceptions import ValidationError
@@ -9,6 +9,12 @@ class SnippetForm(ModelForm):
     class Meta:
         model = Snippet
         fields = ['name', 'lang', 'code', 'private']
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["text"]
 
 
 class UserRegistrationForm(ModelForm):
@@ -24,3 +30,5 @@ class UserRegistrationForm(ModelForm):
         if pass1 and pass2 and pass1 == pass2:
             return pass2
         raise ValidationError("Пароли не совпадают")
+
+
