@@ -97,9 +97,13 @@ def registration(request):
 
 @login_required
 def snippet_my(request):
-    my_snippet = Snippet.objects.filter(user=request.user)
+    lang = request.GET.get("lang")
+    if lang == '':
+        snippets = Snippet.objects.filter(user=request.user)
+    else:
+        snippets = Snippet.objects.filter(user=request.user, lang=lang)
 
-    return render(request, 'pages/view_snippets.html', {'snippets': my_snippet})
+    return render(request, 'pages/view_snippets.html', {'snippets': snippets, "lang": lang})
 
 
 @login_required

@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-  <form action="{% url 'snippet-comment' snippet.id %}" method="post">
+  <form action="{% url 'snippet-comment' snippet.id %}" method='POST'>
   {% csrf_token %}
   <table>
     {{form.as_p}}

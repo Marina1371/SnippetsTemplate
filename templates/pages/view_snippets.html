@@ -14,6 +14,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
+                    <th scope="col">Language</th>
                     <th scope="col">автор сниппета</th>
                     <th scope="col">Дата создания</th>
                     <th scope="col">Private</th>
@@ -25,6 +26,7 @@
                 <tr class="table-warning">
                     <td>{{ snippet.id }}</td>
                     <td>{{ snippet.name }}</td>
+                    <td>{{ snippet.lang }}</td>
                     <td>{{ snippet.user.username }}</td>
                     <td>{{ snippet.creation_date }}</td>
                     <td>{{ snippet.Private}}</td>
@@ -50,6 +52,19 @@
                 <i style="color: gray;">Всего сниппетов: x</i>
             </div>
         </div>
+        <dev  class="row">
+            <div class="col">
+                <form method="get" action="">
+                    <select name="lang">
+                        <option value="">Reset</option>
+                        <option value="js" {% if lang == "js" %}selected="selected"{% endif %}>javascript</option>
+                        <option value="py" {% if lang == "py" %}selected="selected"{% endif %}>python</option>
+                        <option value="cpp" {% if lang == "cpp" %}selected="selected"{% endif %}>c++</option>
+                    </select>
+                    <button type="submit">применить</button>
+                </form>
+            </div>
+        </dev>
     </div>
 </div>
 {% endblock %}
