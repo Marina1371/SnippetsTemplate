@@ -28,7 +28,21 @@ def add_snippet(request):
 @login_required
 def snippets_page(request):
     snippets = Snippet.objects.all()
-    return render(request, 'pages/view_snippets.html', {"snippets": snippets, "pagename": "List Snippets"})
+    lang = request.GET.get("lang")
+    sort = request.GET.get("sort")
+    order = request.GET.get("order")
+    if order == None:
+        order = ""
+    if lang:
+        snippets = Snippet.filter(lang=lang)
+
+    if sort:
+        if order == "desc":
+            sort = "-"+sort
+
+        snippets = snippets.order_by(sort).values()
+
+    return render(request, 'pages/view_snippets.html', {"snippets": snippets, "order": order, "pagename": "List Snippets"})
 
 
 def snippet(request, id):
