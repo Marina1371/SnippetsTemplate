@@ -3,6 +3,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from MainApp import views
 
+
+
 urlpatterns = [
     path('', views.index_page, name='home'),
     path('snippets/add', views.add_snippet, name='snippets-add'),
