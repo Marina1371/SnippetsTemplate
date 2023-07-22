@@ -34,7 +34,7 @@ def snippets_page(request):
     if order == None:
         order = ""
     if lang:
-        snippets = Snippet.filter(lang=lang)
+        snippets = Snippet.objects.filter(lang=lang)
 
     if sort:
         if order == "desc":
