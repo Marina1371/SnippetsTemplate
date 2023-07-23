@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from MainApp import views
-
+from django.contrib import admin
 
 
 urlpatterns = [
@@ -18,7 +18,8 @@ urlpatterns = [
     path('register', views.registration, name='registration'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
-    path('test', views.test)
+    path('test', views.test),
+    path('admin/', admin.site.urls),
 ]
 
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
