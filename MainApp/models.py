@@ -3,21 +3,27 @@ from django.contrib.auth.models import User
 
 LANGS = (
     ("py", "python"), ("js", "javaScript"),
-    ("cpp", "c++"),
+   ("cpp", "c++")
 )
+class Language(models.Model):
+    full_name = models.CharField(max_length=32)
+    short_name = models.CharField(max_length=8)
 
+    def __str__(self):
+        return f"{self.short_name}"
 
 class Snippet(models.Model):
     name = models.CharField(max_length=100)
-    lang = models.CharField(max_length=30, choices=LANGS)
+    lang = models.ForeignKey(to=Language, on_delete=models.PROTECT,
+                           null=True,blank=True)
     code = models.TextField(max_length=5000)
     creation_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True)
     private = models.BooleanField(default=True)
 
-def __str__(self):
-    return f"Snippets {self.Snippet} | {self.user}"
-    return f"Snippets {self.Snippet} | {self.user}"
+    def __str__(self):
+        return f"Snippets {self.name} | {self.user}"
+        # return f"Snippets {self.Snippet} | {self.user}"
 
 class Comment(models.Model):
     text = models.TextField(max_length=2500)

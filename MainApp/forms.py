@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 class SnippetForm(ModelForm):
     class Meta:
         model = Snippet
-        fields = ['name', 'lang', 'code', 'private']
+        fields = ['name', 'code', 'private']
 
 
 class CommentForm(ModelForm):
