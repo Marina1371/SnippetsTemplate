@@ -2,9 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.shortcuts import redirect, render
-from MainApp.models import Snippet
+from django.db.models import Count
+from MainApp.models import Snippet, Language
 from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
-
+from django.contrib.auth.models import User
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
@@ -28,13 +29,24 @@ def add_snippet(request):
 @login_required
 def snippets_page(request):
     snippets = Snippet.objects.all()
-    lang = request.GET.get("lang")
+    languages = Language.objects.all()
+    users = User.objects.annotate(num_snippets=Count('snippets')).exclude(num_snippets=0)
+    lang = request.GET.get("lang", 0)
     sort = request.GET.get("sort")
-    order = request.GET.get("order")
-    if order == None:
-        order = ""
-    if lang:
+    order = request.GET.get("order", "")
+    user = request.GET.get("user", 0)
+
+    if user != 0 and user != "":
+        snippets = Snippet.objects.filter(user=user)
+
+    if lang != 0 and lang != "":
         snippets = Snippet.objects.filter(lang=lang)
+
+    if lang == "":
+        lang = 0
+
+    if user == "":
+        user = 0
 
     if sort:
         if order == "desc":
@@ -42,7 +54,15 @@ def snippets_page(request):
 
         snippets = snippets.order_by(sort).values()
 
-    return render(request, 'pages/view_snippets.html', {"snippets": snippets, "order": order, "pagename": "List Snippets"})
+    return render(request, 'pages/view_snippets.html', {
+        "snippets": snippets,
+        "languages": languages,
+        "order": order,
+        "users": users,
+        "lang": int(lang),
+        "currentUser": int(user),
+        "pagename": "List Snippets"
+    })
 
 
 def snippet(request, id):

@@ -60,19 +60,25 @@
                 <i style="color: gray;">Всего сниппетов: x</i>
             </div>
         </div>
-        <dev  class="row">
+        <div  class="row">
             <div class="col">
                 <form method="get" action="">
                     <select name="lang">
                         <option value="">Reset</option>
-                        <option value="js" {% if lang == "js" %}selected="selected"{% endif %}>javascript</option>
-                        <option value="py" {% if lang == "py" %}selected="selected"{% endif %}>python</option>
-                        <option value="cpp" {% if lang == "cpp" %}selected="selected"{% endif %}>c++</option>
+                        {% for language in languages %}
+                            <option value="{{language.id}}" {% if lang == language.id %}selected="selected"{% endif %}>{{language.full_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="user">
+                        <option value="">Reset</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" {% if user.id == currentUser %}selected="selected"{% endif %}>{{ user.username }}</option>
+                        {% endfor %}
                     </select>
                     <button type="submit">применить</button>
                 </form>
             </div>
-        </dev>
+        </div>
     </div>
 </div>
 {% endblock %}
